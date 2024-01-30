@@ -263,6 +263,12 @@ class ChromePhp
             $logs[] = $logger->_convert($arg);
         }
 
+        // do not read backtrace for group types
+        if (in_array($type, [ self::GROUP, self::GROUP_END, self::GROUP_COLLAPSED ] ))
+        {
+            return $logger->_addRow($logs, null, $type);
+        }
+
         $backtrace = debug_backtrace(false);
         $level = $logger->getSetting(self::BACKTRACE_LEVEL);
 
